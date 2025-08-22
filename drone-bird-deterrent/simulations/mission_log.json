@@ -1,0 +1,128 @@
+{
+  "mission_summary": {
+    "success": true,
+    "distance_km": 10.138888888888879,
+    "time_minutes": 12.166666666666654,
+    "battery_final": 90.865865865866,
+    "birds_detected": 2,
+    "deterrent_activations": 1,
+    "successful_deterrents": 1
+  },
+  "detailed_log": [
+    {
+      "distance_km": 0.0,
+      "time": 0.0,
+      "event": "MISSION START",
+      "details": "Medicine delivery drone launched",
+      "system_state": "STANDBY",
+      "battery": 100,
+      "power": 15
+    },
+    {
+      "distance_km": 2.5,
+      "time": 180.0,
+      "event": "MILESTONE",
+      "details": "25% of mission completed",
+      "system_state": "STANDBY",
+      "battery": 97.7,
+      "power": 15
+    },
+    {
+      "distance_km": 2.6,
+      "time": 190.0,
+      "event": "MILESTONE",
+      "details": "25% of mission completed",
+      "system_state": "STANDBY",
+      "battery": 97.6,
+      "power": 15
+    },
+    {
+      "distance_km": 5.0,
+      "time": 360.0,
+      "event": "ENTERING ATTACK ZONE",
+      "details": "High alert - bird encounters likely",
+      "system_state": "STANDBY",
+      "battery": 95.5,
+      "power": 15
+    },
+    {
+      "distance_km": 5.1,
+      "time": 370.0,
+      "event": "ENTERING ATTACK ZONE",
+      "details": "High alert - bird encounters likely",
+      "system_state": "STANDBY",
+      "battery": 95.4,
+      "power": 15
+    },
+    {
+      "distance_km": 5.3,
+      "time": 380.0,
+      "event": "BIRD DETECTED",
+      "details": "Crow detected at 187m (Confidence: 87%)",
+      "system_state": "STANDBY",
+      "battery": 95.2,
+      "power": 15
+    },
+    {
+      "distance_km": 5.3,
+      "time": 380.0,
+      "event": "DETERRENT ACTIVATED",
+      "details": "Crow at 187m (Threat: MEDIUM) | Methods: LED Strobes (High Intensity), Audio Distress Calls (Crow specific) | SUCCESS - Bird deterred",
+      "system_state": "ACTIVE",
+      "battery": 95.2,
+      "power": 80
+    },
+    {
+      "distance_km": 5.7,
+      "time": 410.0,
+      "event": "BIRD DETECTED",
+      "details": "Pigeon detected at 290m (Confidence: 81%)",
+      "system_state": "STANDBY",
+      "battery": 94.9,
+      "power": 15
+    },
+    {
+      "distance_km": 7.5,
+      "time": 540.0,
+      "event": "MILESTONE",
+      "details": "75% of mission completed - exiting attack zone",
+      "system_state": "STANDBY",
+      "battery": 93.2,
+      "power": 15
+    },
+    {
+      "distance_km": 7.6,
+      "time": 550.0,
+      "event": "MILESTONE",
+      "details": "75% of mission completed - exiting attack zone",
+      "system_state": "STANDBY",
+      "battery": 93.1,
+      "power": 15
+    },
+    {
+      "distance_km": 10.1,
+      "time": 730.0,
+      "event": "MISSION COMPLETE",
+      "details": "Medicine successfully delivered to destination",
+      "system_state": "STANDBY",
+      "battery": 90.9,
+      "power": 15
+    }
+  ],
+  "bird_encounters": [
+    {
+      "type": "Crow",
+      "distance": 186.80669907650068,
+      "confidence": 0.866023440200735,
+      "threat_level": "MEDIUM",
+      "threat_score": 25
+    },
+    {
+      "type": "Pigeon",
+      "distance": 289.5659145003035,
+      "confidence": 0.8051234044298294,
+      "threat_level": "NONE",
+      "threat_score": 5
+    }
+  ]
+}

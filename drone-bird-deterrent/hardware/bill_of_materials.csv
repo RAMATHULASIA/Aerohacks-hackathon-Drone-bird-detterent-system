@@ -1,0 +1,38 @@
+Category,Component,Part Number,Quantity,Unit Price (Rs),Total Price (Rs),Supplier,Description
+Detection System,Raspberry Pi 4B 4GB,RPI4-MODBP-4GB,1,8000,8000,Robu.in,Main AI processing unit
+Detection System,Camera Module 3,RPI-CAM-V3,1,3500,3500,Element14,12MP camera for bird detection
+Detection System,MPU-6050 IMU,GY-521,1,400,400,Amazon India,6-axis motion sensor
+Detection System,NEO-8M GPS,NEO-8M,1,1200,1200,Robu.in,GPS receiver module
+Detection System,BMP280 Barometer,BMP280,1,400,400,Amazon India,Pressure and temperature sensor
+Deterrent System,CREE XM-L2 LED,XM-L2-T6,4,500,2000,LED World India,High-power LED for strobes
+Deterrent System,LED Driver Circuit,Custom PCB,4,500,2000,Local PCB,MOSFET driver for LEDs
+Deterrent System,20W Speaker,CE32A-4,1,3500,3500,Prime ABGB,Weatherproof speaker
+Deterrent System,Audio Amplifier,TPA3116D2,1,2500,2500,Amazon India,Class D amplifier
+Deterrent System,Reflective Tape,3M Scotchlite,8,100,800,3M India,Passive visual deterrent
+Control System,ESP32-S3 DevKit,ESP32-S3-DevKitC-1,1,2500,2500,Robu.in,Main microcontroller
+Control System,3S LiPo Battery,Tattu 3000mAh,1,3500,3500,Quadkopters India,Main power source
+Control System,DC-DC Converter 12V,LM2596 5A,1,300,300,Amazon India,12V rail for LEDs
+Control System,DC-DC Converter 5V,LM2596 3A,1,250,250,Amazon India,5V rail for electronics
+Control System,Linear Regulator 3.3V,AMS1117,1,150,150,Amazon India,3.3V rail for sensors
+Control System,Current Sensor,INA219,3,400,1200,Amazon India,Power monitoring
+Control System,Battery Charger,TP4056,1,200,200,Amazon India,LiPo charging circuit
+Communication,LoRa Module,SX1276 915MHz,1,1500,1500,Robu.in,Long-range communication
+Communication,LoRa Antenna,915MHz 2dBi,1,300,300,Amazon India,Omnidirectional antenna
+Mechanical,Carbon Fiber Plate,3K CF 2mm,2,1000,2000,Local Supplier,Mounting plates
+Mechanical,Vibration Dampers,Silicone Isolators,8,50,400,Amazon India,Shock absorption
+Mechanical,Fasteners,M3 Stainless Steel,20,10,200,Local Hardware,Screws and nuts
+Mechanical,Main Enclosure,ABS IP65,1,1500,1500,Local Supplier,Weatherproof housing
+Mechanical,Camera Dome,Polycarbonate,1,800,800,Local Supplier,Camera protection
+Development,Breadboards,Half-size,2,200,400,Amazon India,Prototyping
+Development,Jumper Wires,M-M/M-F/F-F,3,150,450,Amazon India,Connections
+Development,Multimeter,Digital,1,500,500,Local Electronics,Testing equipment
+Development,Oscilloscope Rental,DSO,1,2000,2000,Local Service,Signal analysis
+Development,PCB Fabrication,4-layer,1,1500,1500,Local PCB,Custom control board
+Miscellaneous,MicroSD Card,32GB Class 10,1,800,800,Amazon India,Storage for RPi
+Miscellaneous,Heat Sinks,Aluminum,5,100,500,Amazon India,Thermal management
+Miscellaneous,Thermal Paste,Arctic Silver,1,300,300,Amazon India,Heat transfer
+Miscellaneous,Cable Management,Zip ties/sleeves,1,200,200,Amazon India,Wire organization
+Miscellaneous,Conformal Coating,Acrylic,1,400,400,Amazon India,PCB protection
+,,,,TOTAL,47700,,
+,,,,BUDGET,50000,,
+,,,,REMAINING,2300,,

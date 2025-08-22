@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Bird Deterrent System - Visual Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+
+        .demo-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .simulation-area {
+            flex: 2;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .control-panel {
+            flex: 1;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 20px;
+            height: 600px;
+            overflow-y: auto;
+        }
+
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #98D8E8 100%);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .terrain {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(to bottom, #228B22 0%, #006400 100%);
+            border-radius: 0 0 10px 10px;
+        }
+
+        .drone {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background: #333;
+            border-radius: 10px;
+            transition: all 0.5s ease;
+            z-index: 10;
+        }
+
+        .drone::before {
+            content: '🚁';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+        }
+
+        .drone.medicine::after {
+            content: '💊';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+
+        .bird {
+            position: absolute;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .bird.eagle::before { content: '🦅'; }
+        .bird.hawk::before { content: '🪶'; }
+        .bird.crow::before { content: '🐦‍⬛'; }
+
+        .strobe {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff 0%, #ff0 50%, transparent 100%);
+            opacity: 0;
+            animation: strobe 0.5s infinite;
+        }
+
+        @keyframes strobe {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .audio-wave {
+            position: absolute;
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: audioWave 2s infinite;
+        }
+
+        @keyframes audioWave {
+            0% { 
+                width: 0; 
+                height: 0; 
+                opacity: 1; 
+            }
+            100% { 
+                width: 200px; 
+                height: 200px; 
+                opacity: 0; 
+            }
+        }
+
+        .status-panel {
+            background: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .status-value {
+            font-weight: bold;
+        }
+
+        .status-value.standby { color: #00ff00; }
+        .status-value.alert { color: #ffff00; }
+        .status-value.active { color: #ff0000; }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00 0%, #ffff00 50%, #ff0000 100%);
+            transition: width 0.5s ease;
+        }
+
+        .controls {
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn.danger {
+            background: #dc3545;
+        }
+
+        .btn.danger:hover {
+            background: #c82333;
+        }
+
+        .log {
+            background: rgba(0,0,0,0.8);
+            border-radius: 10px;
+            padding: 15px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .log-entry {
+            margin: 5px 0;
+            padding: 2px 0;
+        }
+
+        .log-entry.info { color: #00ff00; }
+        .log-entry.warning { color: #ffff00; }
+        .log-entry.danger { color: #ff0000; }
+
+        .specs {
+            background: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .specs h3 {
+            margin-top: 0;
+            color: #00ff00;
+        }
+
+        .attack-zone {
+            position: absolute;
+            left: 40%;
+            top: 0;
+            bottom: 0;
+            width: 20%;
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px dashed #ff0000;
+            opacity: 0.7;
+        }
+
+        .attack-zone::before {
+            content: 'BIRD ATTACK ZONE';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(90deg);
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚁 Drone Bird Deterrent System</h1>
+        <p>Aerohacks 2025 - Medicine Delivery Protection</p>
+        <p>Interactive Visual Demonstration</p>
+    </div>
+
+    <div class="demo-container">
+        <div class="simulation-area">
+            <div class="sky"></div>
+            <div class="terrain"></div>
+            <div class="attack-zone"></div>
+            
+            <div class="drone medicine" id="drone"></div>
+        </div>
+
+        <div class="control-panel">
+            <div class="status-panel">
+                <h3>🎛️ System Status</h3>
+                <div class="status-item">
+                    <span>System State:</span>
+                    <span class="status-value standby" id="systemState">STANDBY</span>
+                </div>
+                <div class="status-item">
+                    <span>Threat Level:</span>
+                    <span class="status-value" id="threatLevel">NONE</span>
+                </div>
+                <div class="status-item">
+                    <span>Mission Progress:</span>
+                    <span class="status-value" id="missionProgress">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="status-item">
+                    <span>Battery Level:</span>
+                    <span class="status-value" id="batteryLevel">100%</span>
+                </div>
+                <div class="status-item">
+                    <span>Power Consumption:</span>
+                    <span class="status-value" id="powerConsumption">15W</span>
+                </div>
+                <div class="status-item">
+                    <span>Birds Detected:</span>
+                    <span class="status-value" id="birdsDetected">0</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <h3>🎮 Controls</h3>
+                <button class="btn" onclick="startMission()">Start Mission</button>
+                <button class="btn" onclick="spawnBird()">Spawn Bird</button>
+                <button class="btn" onclick="testDeterrents()">Test Deterrents</button>
+                <button class="btn danger" onclick="resetDemo()">Reset</button>
+            </div>
+
+            <div class="log" id="missionLog">
+                <div class="log-entry info">[00:00] System initialized - Ready for mission</div>
+                <div class="log-entry info">[00:00] All systems nominal</div>
+                <div class="log-entry info">[00:00] Awaiting mission start command...</div>
+            </div>
+
+            <div class="specs">
+                <h3>📊 System Specifications</h3>
+                <p><strong>Weight:</strong> 1.5kg (within limit)</p>
+                <p><strong>Cost:</strong> Rs. 47,700 (under budget)</p>
+                <p><strong>Detection Range:</strong> 300m</p>
+                <p><strong>Battery Life:</strong> 60+ minutes</p>
+                <p><strong>Success Rate:</strong> 85%+</p>
+                <p><strong>Weather Rating:</strong> IP65</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let missionActive = false;
+        let missionProgress = 0;
+        let batteryLevel = 100;
+        let systemState = 'STANDBY';
+        let threatLevel = 'NONE';
+        let powerConsumption = 15;
+        let birdsDetected = 0;
+        let missionTime = 0;
+        let birds = [];
+
+        const drone = document.getElementById('drone');
+        const simulationArea = document.querySelector('.simulation-area');
+
+        function updateStatus() {
+            document.getElementById('systemState').textContent = systemState;
+            document.getElementById('systemState').className = `status-value ${systemState.toLowerCase()}`;
+            document.getElementById('threatLevel').textContent = threatLevel;
+            document.getElementById('missionProgress').textContent = `${Math.round(missionProgress)}%`;
+            document.getElementById('progressFill').style.width = `${missionProgress}%`;
+            document.getElementById('batteryLevel').textContent = `${Math.round(batteryLevel)}%`;
+            document.getElementById('powerConsumption').textContent = `${powerConsumption}W`;
+            document.getElementById('birdsDetected').textContent = birdsDetected;
+        }
+
+        function logMessage(message, type = 'info') {
+            const log = document.getElementById('missionLog');
+            const time = String(Math.floor(missionTime / 60)).padStart(2, '0') + ':' + 
+                        String(missionTime % 60).padStart(2, '0');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${time}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function startMission() {
+            if (missionActive) return;
+            
+            missionActive = true;
+            missionProgress = 0;
+            batteryLevel = 100;
+            missionTime = 0;
+            
+            logMessage('Mission started - Medicine delivery drone launched', 'info');
+            
+            const missionInterval = setInterval(() => {
+                if (!missionActive) {
+                    clearInterval(missionInterval);
+                    return;
+                }
+                
+                missionTime++;
+                missionProgress += 0.5;
+                batteryLevel -= powerConsumption / 3600 * 5; // Approximate battery drain
+                
+                // Update drone position
+                const droneX = (missionProgress / 100) * (simulationArea.offsetWidth - 60);
+                drone.style.left = `${droneX}px`;
+                drone.style.top = `${250 + Math.sin(missionTime * 0.1) * 20}px`;
+                
+                // Check for bird attack zone
+                if (missionProgress >= 40 && missionProgress <= 60) {
+                    if (Math.random() < 0.02) { // 2% chance per second
+                        spawnBird();
+                    }
+                }
+                
+                // Mission milestones
+                if (missionProgress === 25) {
+                    logMessage('25% of mission completed', 'info');
+                } else if (missionProgress === 40) {
+                    logMessage('Entering bird attack zone - High alert!', 'warning');
+                } else if (missionProgress === 60) {
+                    logMessage('Exiting bird attack zone', 'info');
+                } else if (missionProgress === 75) {
+                    logMessage('75% of mission completed', 'info');
+                }
+                
+                // Mission completion
+                if (missionProgress >= 100) {
+                    missionActive = false;
+                    logMessage('Mission completed successfully - Medicine delivered!', 'info');
+                    systemState = 'STANDBY';
+                    threatLevel = 'NONE';
+                    powerConsumption = 15;
+                }
+                
+                updateStatus();
+            }, 100);
+        }
+
+        function spawnBird() {
+            const birdTypes = ['eagle', 'hawk', 'crow'];
+            const birdType = birdTypes[Math.floor(Math.random() * birdTypes.length)];
+            
+            const bird = document.createElement('div');
+            bird.className = `bird ${birdType}`;
+            bird.style.left = `${Math.random() * (simulationArea.offsetWidth - 50)}px`;
+            bird.style.top = `${100 + Math.random() * 200}px`;
+            
+            simulationArea.appendChild(bird);
+            birds.push(bird);
+            birdsDetected++;
+            
+            logMessage(`${birdType.toUpperCase()} detected - Assessing threat level`, 'warning');
+            
+            // Determine threat level
+            const distance = Math.random() * 300 + 50;
+            let newThreatLevel = 'LOW';
+            
+            if (birdType === 'eagle' && distance < 100) {
+                newThreatLevel = 'HIGH';
+            } else if ((birdType === 'hawk' || birdType === 'eagle') && distance < 150) {
+                newThreatLevel = 'MEDIUM';
+            }
+            
+            threatLevel = newThreatLevel;
+            
+            // Update system state
+            if (threatLevel === 'LOW') {
+                systemState = 'ALERT';
+                powerConsumption = 35;
+                activateStrobes();
+            } else if (threatLevel === 'MEDIUM' || threatLevel === 'HIGH') {
+                systemState = 'ACTIVE';
+                powerConsumption = 80;
+                activateStrobes();
+                activateAudio();
+            }
+            
+            logMessage(`Threat level: ${threatLevel} - Activating deterrents`, 'danger');
+            
+            // Simulate bird behavior
+            setTimeout(() => {
+                const success = Math.random() < 0.85; // 85% success rate
+                if (success) {
+                    logMessage(`${birdType.toUpperCase()} successfully deterred`, 'info');
+                    bird.style.transform = 'translateX(-200px)';
+                } else {
+                    logMessage(`${birdType.toUpperCase()} maintained course - Increasing deterrent intensity`, 'warning');
+                }
+                
+                setTimeout(() => {
+                    bird.remove();
+                    birds = birds.filter(b => b !== bird);
+                    
+                    if (birds.length === 0) {
+                        systemState = 'STANDBY';
+                        threatLevel = 'NONE';
+                        powerConsumption = 15;
+                        logMessage('All threats cleared - Returning to standby mode', 'info');
+                    }
+                }, 2000);
+            }, 3000);
+            
+            updateStatus();
+        }
+
+        function activateStrobes() {
+            for (let i = 0; i < 4; i++) {
+                const strobe = document.createElement('div');
+                strobe.className = 'strobe';
+                const angle = (i * 90) * Math.PI / 180;
+                const droneRect = drone.getBoundingClientRect();
+                const simRect = simulationArea.getBoundingClientRect();
+                
+                strobe.style.left = `${drone.offsetLeft + 30 + Math.cos(angle) * 40}px`;
+                strobe.style.top = `${drone.offsetTop + 20 + Math.sin(angle) * 40}px`;
+                
+                simulationArea.appendChild(strobe);
+                
+                setTimeout(() => strobe.remove(), 5000);
+            }
+        }
+
+        function activateAudio() {
+            const audioWave = document.createElement('div');
+            audioWave.className = 'audio-wave';
+            audioWave.style.left = `${drone.offsetLeft + 30}px`;
+            audioWave.style.top = `${drone.offsetTop + 20}px`;
+            audioWave.style.marginLeft = '-100px';
+            audioWave.style.marginTop = '-100px';
+            
+            simulationArea.appendChild(audioWave);
+            
+            setTimeout(() => audioWave.remove(), 2000);
+        }
+
+        function testDeterrents() {
+            logMessage('Testing deterrent systems...', 'info');
+            activateStrobes();
+            activateAudio();
+            logMessage('LED strobes and audio system activated', 'info');
+        }
+
+        function resetDemo() {
+            missionActive = false;
+            missionProgress = 0;
+            batteryLevel = 100;
+            systemState = 'STANDBY';
+            threatLevel = 'NONE';
+            powerConsumption = 15;
+            birdsDetected = 0;
+            missionTime = 0;
+            
+            // Remove all birds
+            birds.forEach(bird => bird.remove());
+            birds = [];
+            
+            // Reset drone position
+            drone.style.left = '50px';
+            drone.style.top = '250px';
+            
+            // Clear log
+            document.getElementById('missionLog').innerHTML = `
+                <div class="log-entry info">[00:00] System reset - Ready for new mission</div>
+                <div class="log-entry info">[00:00] All systems nominal</div>
+            `;
+            
+            updateStatus();
+        }
+
+        // Initialize
+        updateStatus();
+        drone.style.left = '50px';
+        drone.style.top = '250px';
+
+        // Auto-demo mode
+        setTimeout(() => {
+            logMessage('Auto-demo starting in 3 seconds...', 'info');
+            setTimeout(startMission, 3000);
+        }, 2000);
+    </script>
+</body>
+</html>
